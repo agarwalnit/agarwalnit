@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cloud-pubsub-image
+  labels:
+    app: cloud-pubsub-image
+spec:
+  # Skaffold has a bug where if previous job is not cleaned 
+  # then it create conflict with next one 
+  ttlSecondsAfterFinished: 300
+  template:
+    metadata:
+      labels:
+        app: cloud-pubsub-image
+    spec:
+      containers:
+      - name: cloud-pubsub-image
+        image: cloud-pubsub-image
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Never
